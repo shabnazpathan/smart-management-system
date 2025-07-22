@@ -1,18 +1,27 @@
-//appointment
+package com.project_black_end.models;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
 @Entity
+@Data
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ManyToOne
-    private Patient patient;
 
     @ManyToOne
     private Doctor doctor;
 
-    private LocalDateTime appointmentDate;
-    private String status;
+    @ManyToOne
+    private Patient patient;
 
-    // Constructors, Getters, Setters
+    @NotNull
+    @Future
+    private LocalDateTime appointmentTime;
 }
