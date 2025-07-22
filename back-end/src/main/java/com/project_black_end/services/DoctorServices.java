@@ -1,23 +1,23 @@
-//Doctor
 package com.project_black_end.services;
 
+import com.project_black_end.models.Doctor;
+import com.project_black_end.repo.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
+
 import java.util.List;
 
 @Service
-public class DoctorServices {
+public class DoctorService {
 
-    public List<String> getAvailableTimeSlots(Long doctorId, LocalDate date) {
-        // mock implementation
-        return List.of("10:00 AM", "11:00 AM", "03:00 PM");
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    public List<Doctor> findAvailableDoctors(String specialization, String time) {
+        return doctorRepository.findBySpecializationAndAvailableTimesContaining(specialization, time);
     }
 
-    public String validateLogin(String email, String password) {
-        if (email.equals("doctor@example.com") && password.equals("password123")) {
-            return "Login successful";
-        } else {
-            return "Invalid credentials";
-        }
+    public boolean validateLogin(String email, String password) {
+        return doctorRepository.findByEmailAndPassword(email, password).isPresent();
     }
 }
